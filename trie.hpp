@@ -25,6 +25,26 @@ class trie
         }
         return flag && collection == branch ? true : false;
     }
+    
+    bool match(const K &full) const {
+
+		const trie *node = this;
+		int ct = 0;
+		for (auto &elem : full) {
+			const auto found = node->children.find(elem);
+			if (found == node->children.end()) {
+				continue;
+			}
+			node = &found->second;
+			ct++;
+			if (node->flag)
+				break;
+			//std::cout << __func__ << " ct: " << ct << " flag:" << node->flag << " branch :" << branch << std::endl;
+			
+		}
+		return    (ct>1 && node->flag);
+
+	}
 
     V& insert( const K &collection ) {
         trie *node = this;
